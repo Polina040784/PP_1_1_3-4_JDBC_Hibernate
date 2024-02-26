@@ -1,7 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,13 +13,19 @@ public class Util {
       try {
           Class.forName("com.mysql.cj.jdbc.Driver");
           connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-          return  connection;
+
       } catch (ClassNotFoundException | SQLException e) {
-          throw new RuntimeException(e);
+          e.printStackTrace();
       }
+      return  connection;
   }
-  public static void closeConnection () throws SQLException {
-      if (connection != null)
-          connection.close();
+  public static void closeConnection () {
+      if (connection != null) {
+          try {
+              connection.close();
+          } catch (SQLException e) {
+              e.printStackTrace();
+          }
+      }
   }
 }
